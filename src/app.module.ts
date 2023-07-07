@@ -1,32 +1,32 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DevicesController } from './devices/devices.controller';
-import { DevicesService } from './devices/devices.service';
 import { LoggerMiddleware } from './logger.middleware';
-import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './http-exception.filter';
-import { DevicesModule } from './devices/devices.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Device } from './devices/entities/device.entity';
+import { DevicesModule } from './models/devices/devices.module';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Devices } from './models/devices/devices.entity';
+import { DeviceTypes } from './models/device-types/device-types.entity';
+import { DeviceTypesModule } from './models/device-types/device-types.module';
 
 @Module({
-  imports: [DevicesModule,
+  imports: [DevicesModule, DeviceTypesModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database.sqlite', // Đặt tên và vị trí tệp SQLite database
-      entities: [Device],
+      database: 'database.sqlite',
+      entities: [Devices, DeviceTypes],
       synchronize: true,
-    }),
-    
+      timezone: '+07:00',
+    } as TypeOrmModuleOptions),
   ],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_FILTER,
     useClass: HttpExceptionFilter,
   },
-],
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
