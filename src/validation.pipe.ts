@@ -1,11 +1,20 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
+import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
 
 
 @Injectable()
-export class ValidationPipe implements PipeTransform {
+export class CreateDeviceValidationPipe implements PipeTransform {
     transform(value: any, metadata: ArgumentMetadata) {
-        // throw new Error("Method not implemented.");
+        const { mac_address, name } = value;
+
+        // validate mac_address    
+        const macAddressRegex = /^\d{5}$/;
+        if (!mac_address.match(macAddressRegex)) {
+            throw new BadRequestException('Invalid mac_address format. It should be 5 digits.');
+        }
+        // validate name
+        if (name.length < 3) {
+            throw new BadRequestException('Invalid name. It should have at least 3 characters.');
+        }
         return value;
     }
-
-}
+} 

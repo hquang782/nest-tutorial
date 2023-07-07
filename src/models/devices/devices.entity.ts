@@ -20,9 +20,9 @@ export class Devices {
 
   @Column()
   @ApiProperty()
-  mac_address: number;
+  mac_address: string;
 
-
+  @Column()
   @ApiProperty()
   device_type_id: string;
 
@@ -44,11 +44,10 @@ export class DeviceCreate {
   name: string;
 
   @ApiProperty()
-  mac_address: number;
+  mac_address: string;
 
   @ApiProperty()
   device_type_id: string;
-
 }
 
 export class DeviceUpdate {
@@ -56,9 +55,8 @@ export class DeviceUpdate {
   name: string;
 
   @ApiProperty()
-  mac_address: number;
+  mac_address: string;
 
   @ApiProperty()
   device_type_id: string;
-
 }

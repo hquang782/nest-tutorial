@@ -7,26 +7,29 @@ import { Devices, DeviceCreate, DeviceUpdate } from './devices.entity';
 @Injectable()
 export class DevicesService {
 
-    constructor(@InjectRepository(Devices) private deviceRepository: Repository<Devices>) { }
+    constructor(@InjectRepository(Devices) private deviceRepository: Repository<Devices>) {
+
+    }
 
     async create(device: DeviceCreate) {
         await this.deviceRepository.save(device);
-        return 'Add a new device';
+        return {message: 'Add Success', data: device};
     }
 
     async findAll(
         relations: string[] = []
     ) {
-        const options: FindManyOptions<Devices> = {
-            relations: relations,
-        }
-        return await this.deviceRepository.find(options)
-        // return `This action returns all devices`;
+        // const option: FindManyOptions<Devices> = {
+        //     relations: relations,
+        // }
+        console.log(relations);
+        return await this.deviceRepository.find({relations: ['device_types']})
     }
 
-    async findOne(id: string) {
+    async findOne(id: string, relations: string[]=[]) {
         const options: FindOneOptions<Devices> = {
             where: { id }, // Tìm thiết bị dựa trên id
+            relations: relations,
         };
         const device = await this.deviceRepository.findOne(options);
         if (!device) {
@@ -36,12 +39,12 @@ export class DevicesService {
     }
 
     async update(id: string, device: DeviceUpdate) {
-        this.deviceRepository.update(id, device);
-        return `Updates a ${id} device`;
+        await this.deviceRepository.update(id, device);
+        return {data: device,message:`Updated a ${id} device`};
     }
 
     async remove(id: string) {
-        this.deviceRepository.delete(id);
-        return `Removes a ${id} device`;
+        await this.deviceRepository.delete(id);
+        return `Removed a ${id} device`;
     }
 }
