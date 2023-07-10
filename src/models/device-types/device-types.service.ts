@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeviceTypeCreate, DeviceTypeUpdate, DeviceTypes } from './device-types.entity';
 import { FindManyOptions, Repository } from 'typeorm';
+
+import { DeviceTypes } from './entity/device-types.entity';
+import { DeviceTypeCreate } from './dto/CreateDeviceType.dto';
+import { DeviceTypeUpdate } from './dto/UpdateDeviceType.dto';
+
 
 @Injectable()
 export class DeviceTypesService {

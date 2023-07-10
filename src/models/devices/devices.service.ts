@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
-// import { Device } from './interfaces/device.interface';
-import { UUID } from 'crypto';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Devices, DeviceCreate, DeviceUpdate } from './devices.entity';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+
+import { Devices } from './entity/devices.entity';
+import { DeviceCreate } from './dto/CreateDevice.dto'
+import { DeviceUpdate } from './dto/UpdateDevice.dto'
+
 @Injectable()
 export class DevicesService {
 
@@ -11,22 +13,23 @@ export class DevicesService {
 
     }
 
-    async create(device: DeviceCreate) {
-        await this.deviceRepository.save(device);
-        return {message: 'Add Success', data: device};
+    async create(deviceCreate: DeviceCreate) {
+        const newDevice = this.deviceRepository.create(deviceCreate);
+        return await this.deviceRepository.save(newDevice);
+        // return { message: 'Add Success', data: device };
     }
 
     async findAll(
         relations: string[] = []
     ) {
-        // const option: FindManyOptions<Devices> = {
+        // const option: FindManyOptions<Devices> = {   
         //     relations: relations,
         // }
-        console.log(relations);
-        return await this.deviceRepository.find({relations: ['device_types']})
+        // console.log(relations);
+        return await this.deviceRepository.find({ relations: ['device_types'] })
     }
 
-    async findOne(id: string, relations: string[]=[]) {
+    async findOne(id: string, relations: string[] = []) {
         const options: FindOneOptions<Devices> = {
             where: { id }, // Tìm thiết bị dựa trên id
             relations: relations,
@@ -39,12 +42,23 @@ export class DevicesService {
     }
 
     async update(id: string, device: DeviceUpdate) {
-        await this.deviceRepository.update(id, device);
-        return {data: device,message:`Updated a ${id} device`};
+        const UpdateDevice = await this.deviceRepository.findOne({ where: { id } });
+        if (!UpdateDevice) {
+            throw new NotFoundException('Device not found');
+        }
+        UpdateDevice.name = device.name;
+        UpdateDevice.mac_address = device.mac_address;
+        UpdateDevice.device_type_id = device.device_type_id;
+        return await this.deviceRepository.save(UpdateDevice);
     }
 
     async remove(id: string) {
-        await this.deviceRepository.delete(id);
-        return `Removed a ${id} device`;
+        const device = await this.deviceRepository.findOne({ where: { id } });
+        if (!device) {
+            throw new NotFoundException('Device not found');
+        }
+        device.id = id;
+        console.log(device.id);
+        return await this.deviceRepository.remove(device);
     }
 }

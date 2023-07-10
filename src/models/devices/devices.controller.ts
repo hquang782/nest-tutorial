@@ -2,9 +2,12 @@ import { Controller, Get, Post, Body, Param, Delete, UseFilters, Put, ParseIntPi
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { DevicesService } from './devices.service';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
-import { DeviceCreate, DeviceUpdate, Devices } from './devices.entity';
-import { CreateDeviceValidationPipe } from 'src/validation.pipe';
+import { HttpExceptionFilter } from 'src/config/http-exception.filter';
+import { Devices } from './entity/devices.entity';
+import { DeviceCreate } from './dto/CreateDevice.dto';
+import {DeviceUpdate } from './dto/UpdateDevice.dto';
+import { CreateDeviceValidationPipe } from 'src/config/validation.pipe';
+import { AfterInsert } from 'typeorm';
 
 @ApiTags('Device')
 @Controller('devices')
@@ -14,7 +17,7 @@ export class DevicesController {
   @Post()
   @UseFilters(new HttpExceptionFilter())
   @ApiResponse({
-    type: Devices,
+    type: DeviceCreate,
     status: 201
   })
   @UsePipes(new CreateDeviceValidationPipe())
@@ -31,7 +34,7 @@ export class DevicesController {
   @Get(':id')//pipes 
   async findOne(@Param('id') id: string) {
     // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    return await this.devicesService.findOne(id,['device_types']);
+    return await this.devicesService.findOne(id, ['device_types']);
   }
 
   @Put(':id')

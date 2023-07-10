@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { DeviceTypesService } from './device-types.service';
 import { ApiTags } from '@nestjs/swagger';
-import { DeviceTypeCreate } from './device-types.entity';
+import { DeviceTypeCreate } from './dto/CreateDeviceType.dto';
 
 @ApiTags('DeviceType')
 @Controller('device-types')
@@ -11,7 +11,7 @@ export class DeviceTypesController {
   @Get()
   async findAll() {
     return await this.deviceTypesService.findAll(
-      ['devices',]
+      ['devices']
     );
   }
 

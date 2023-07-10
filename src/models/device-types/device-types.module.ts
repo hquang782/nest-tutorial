@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DeviceTypesService } from './device-types.service';
 import { DeviceTypesController } from './device-types.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DeviceTypes } from './device-types.entity';
+import { DeviceTypes } from './entity/device-types.entity';
 
 @Module({
   imports: [
