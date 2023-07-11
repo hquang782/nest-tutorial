@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, AfterInsert, AfterUpdate, AfterRemove, BeforeRemove } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, AfterInsert, AfterUpdate, BeforeRemove,
+} from 'typeorm';
 import { DeviceTypes } from '../../device-types/entity/device-types.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
 
 @Entity({ name: 'devices' })
 export class Devices {
-
   constructor() {
     this.id = uuidv4();
   }
@@ -26,9 +26,11 @@ export class Devices {
   @ApiProperty()
   device_type_id: string;
 
-  @ManyToOne(() => DeviceTypes, (deviceType) => deviceType.devices, { nullable: false })
+  @ManyToOne(() => DeviceTypes, (deviceType) => deviceType.devices, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'device_type_id' })
-  device_types?: DeviceTypes
+  device_types?: DeviceTypes;
 
   // @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   // @ApiProperty()
@@ -37,11 +39,11 @@ export class Devices {
   // @UpdateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   // @ApiProperty()
   // updated: Date;
-  @CreateDateColumn({ type: 'datetime', default: getCurrentTimestamp()})
+  @CreateDateColumn({ type: 'datetime', default: getCurrentTimestamp() })
   @ApiProperty()
   created: Date;
 
-  @UpdateDateColumn({ type: 'datetime', default: getCurrentTimestamp()})
+  @UpdateDateColumn({ type: 'datetime', default: getCurrentTimestamp() })
   @ApiProperty()
   updated: Date;
 
@@ -59,11 +61,8 @@ export class Devices {
   beforeRemove() {
     console.log('Remove device with id: ', this.id);
   }
-
 }
-
 
 function getCurrentTimestamp(): string {
   return new Date().toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
 }
-
