@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { DeviceTypes } from './entity/device-types.entity';
+import { DeviceTypes } from './entities/device-types.entity';
 import { DeviceTypeCreate } from './dto/CreateDeviceType.dto';
 import { DeviceTypeUpdate } from './dto/UpdateDeviceType.dto';
 
@@ -56,9 +56,13 @@ export class DeviceTypesService {
     return this.deviceTypeRepository.save(deviceType);
   }
   async remove(id: string) {
-    const deviceType = await this.deviceTypeRepository.findOne({ where: { id } });
+    const deviceType = await this.deviceTypeRepository.findOne({ where: { id }, relations: ['devices'] });
     if (!deviceType) {
       throw new NotFoundException('Device not found');
+    }
+    if (deviceType.devices) {
+      // throw new Error('Devices property is undefined');
+      return "Please delete devices of this device type before remove this!"
     }
     deviceType.id = id;
     return await this.deviceTypeRepository.remove(deviceType);

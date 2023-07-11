@@ -6,7 +6,7 @@ import { HttpExceptionFilter } from 'src/config/http-exception.filter';
 import { DeviceUpdate } from './dto/UpdateDevice.dto';
 import { DeviceCreate } from './dto/CreateDevice.dto';
 import { DevicesService } from './devices.service';
-import { Devices } from './entity/devices.entity';
+import { Devices } from './entities/devices.entity';
 
 
 @ApiTags('Device')

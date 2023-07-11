@@ -3,10 +3,10 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
 
 import { DeviceTypesModule } from '../device-types/device-types.module';
-import { DeviceTypes } from '../device-types/entity/device-types.entity';
+import { DeviceTypes } from '../device-types/entities/device-types.entity';
 import { HttpExceptionFilter } from '../config/http-exception.filter';
 import { LoggerMiddleware } from '../config/logger.middleware';
-import { Devices } from '../devices/entity/devices.entity';
+import { Devices } from '../devices/entities/devices.entity';
 import { DevicesModule } from '../devices/devices.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {  Entity,  PrimaryGeneratedColumn,  Column,  CreateDateColumn,  UpdateDateColumn,  OneToMany,  JoinColumn, AfterInsert, AfterUpdate, BeforeRemove,} from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Devices } from '../../devices/entity/devices.entity';
+import { Devices } from '../../devices/entities/devices.entity';
 
 @Entity({ name: 'device_types' })
 export class DeviceTypes {

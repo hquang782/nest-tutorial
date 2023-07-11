@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, AfterInsert, AfterUpdate, BeforeRemove,
 } from 'typeorm';
-import { DeviceTypes } from '../../device-types/entity/device-types.entity';
+import { DeviceTypes } from '../../device-types/entities/device-types.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
 

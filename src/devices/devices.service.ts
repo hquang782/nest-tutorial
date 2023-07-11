@@ -2,7 +2,7 @@ import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Devices } from './entity/devices.entity';
+import { Devices } from './entities/devices.entity';
 import { DeviceCreate } from './dto/CreateDevice.dto';
 import { DeviceUpdate } from './dto/UpdateDevice.dto';
 

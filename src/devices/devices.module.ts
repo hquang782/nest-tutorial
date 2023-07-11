@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 
 import { DevicesController } from './devices.controller';
 import { DevicesService } from './devices.service';
-import { Devices } from './entity/devices.entity';
+import { Devices } from './entities/devices.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Devices])],
