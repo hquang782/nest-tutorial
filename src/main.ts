@@ -8,7 +8,8 @@ import { logger } from './config/logger.middleware';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // app.use(logger)
-
+  
+  //swagger
   const config = new DocumentBuilder()
     .setTitle('API Documentation')
     .setDescription('API Decription')

@@ -10,17 +10,13 @@ import { Devices } from '../devices/entities/devices.entity';
 import { DevicesModule } from '../devices/devices.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TypeOrmConfigService } from 'src/config/type-orm.config';
 
 @Module({
   imports: [
     DevicesModule,
     DeviceTypesModule,
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.sqlite',
-      entities: [Devices, DeviceTypes],
-      synchronize: true,
-    } as TypeOrmModuleOptions),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService  } ),
   ],
   controllers: [AppController],
   providers: [
